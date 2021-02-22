@@ -1,0 +1,28 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-dotenv = "*"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+pydantic = {extras = ["email"], version = "*"}
+python-dotenv = "*"
+requests = "*"
+python-dateutil = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
+python-multipart = "*"
+emails = "*"
+email-validator = "*"
+pymongo = "*"
+celery = "*"
+
+[requires]
+python_version = "3.8"
