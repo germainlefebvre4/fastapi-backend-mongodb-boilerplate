@@ -7,7 +7,7 @@ from app.core.config import settings
 
 
 class RoleEnum(Enum):
-    superuser = settings.FIRST_SUPERUSER
+    superuser = settings.USER_ADMIN_EMAIL
 
 
 class Roles(BaseModel):

@@ -22,16 +22,17 @@ def user_authentication_headers(
     return headers
 
 
-def create_random_user(db: MongoClient) -> User:
+def create_random_user() -> User:
+    full_name = random_email()
     email = random_email()
     password = random_lower_string()
-    user_in = UserCreate(username=email, email=email, password=password)
-    user = crud.user.create(db=db, obj_in=user_in)
+    user_in = UserCreate(full_name=full_name, email=email, password=password)
+    user = crud.user.create(obj_in=user_in)
     return user
 
 
 def authentication_token_from_email(
-    *, client: TestClient, email: str, db: MongoClient
+    *, client: TestClient, full_name: str, email: str
 ) -> Dict[str, str]:
     """
     Return a valid token for the user with given email.
@@ -39,12 +40,12 @@ def authentication_token_from_email(
     If the user doesn't exist it is created first.
     """
     password = random_lower_string()
-    user = crud.user.get_by_email(db, email=email)
+    user = crud.user.get_by_email(email=email)
     if not user:
-        user_in_create = UserCreate(username=email, email=email, password=password)
-        user = crud.user.create(db, obj_in=user_in_create)
+        user_in_create = UserCreate(full_name=full_name, email=email, password=password)
+        user = crud.user.create(obj_in=user_in_create)
     else:
         user_in_update = UserUpdate(password=password)
-        user = crud.user.update(db, db_obj=user, obj_in=user_in_update)
+        user = crud.user.update(db_obj=user, obj_in=user_in_update)
 
     return user_authentication_headers(client=client, email=email, password=password)

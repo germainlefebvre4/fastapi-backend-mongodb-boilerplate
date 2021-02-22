@@ -17,8 +17,8 @@ wait_seconds = 1
 )
 def init() -> None:
     try:
+        pass
         # Try to create session to check if DB is awake
-        db = get_default_bucket()
         # db.execute("SELECT 1")
     except Exception as e:
         logger.error(e)

@@ -75,9 +75,14 @@ class Settings(BaseSettings):
             and values.get("EMAILS_FROM_EMAIL")
         )
 
-    EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
-    FIRST_SUPERUSER: EmailStr
-    FIRST_SUPERUSER_PASSWORD: str
+    USER_TEST_FULLNAME: str = "Test"
+    USER_TEST_EMAIL: EmailStr = "test@bspauto.fr"
+    USER_TEST_PASSWORD: str = "test"
+
+    USER_ADMIN_FULLNAME: str = "Admin"
+    USER_ADMIN_EMAIL: EmailStr = "admin@bspauto.fr"
+    USER_ADMIN_PASSWORD: str = "admin"
+
     USERS_OPEN_REGISTRATION: bool = False
 
     class Config:

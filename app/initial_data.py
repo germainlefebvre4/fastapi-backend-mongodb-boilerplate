@@ -1,5 +1,9 @@
 import logging
 
+import os
+import sys
+sys.path.append(os.getcwd())
+
 from app.db.init_db import init_db
 
 logging.basicConfig(level=logging.INFO)

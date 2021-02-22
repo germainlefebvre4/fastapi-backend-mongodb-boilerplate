@@ -25,9 +25,8 @@ def login_access_token(
     """
     OAuth2 compatible token login, get an access token for future requests
     """
-    db = get_default_bucket()
     user = crud.user.authenticate(
-        db, email=form_data.username, password=form_data.password
+        email=form_data.username, password=form_data.password
     )
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
@@ -55,8 +54,7 @@ def recover_password(email: str) -> Any:
     """
     Password Recovery
     """
-    db = get_default_bucket()
-    user = crud.user.get_by_email(db, email=email)
+    user = crud.user.get_by_email(email=email)
 
     if not user:
         raise HTTPException(
@@ -81,8 +79,7 @@ def reset_password(
     email = verify_password_reset_token(token)
     if not email:
         raise HTTPException(status_code=400, detail="Invalid token")
-    db = get_default_bucket()
-    user = crud.user.get_by_email(db, email=email)
+    user = crud.user.get_by_email(email=email)
     if not user:
         raise HTTPException(
             status_code=404,
@@ -92,6 +89,4 @@ def reset_password(
         raise HTTPException(status_code=400, detail="Inactive user")
     hashed_password = get_password_hash(new_password)
     user.hashed_password = hashed_password
-    db.add(user)
-    db.commit()
     return {"msg": "Password updated successfully"}

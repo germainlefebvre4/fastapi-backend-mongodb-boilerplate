@@ -2,16 +2,25 @@ from pymongo import MongoClient
 
 from app import crud, schemas
 from app.core.config import settings
-from app.db import base  # noqa: F401
 
 
 def init_db() -> None:
-    db = get_default_bucket()
-    user = crud.user.get_by_email(db, email=settings.FIRST_SUPERUSER)
+    user = crud.user.get_by_email(email=settings.USER_ADMIN_EMAIL)
     if not user:
         user_in = schemas.UserCreate(
-            email=settings.FIRST_SUPERUSER,
-            password=settings.FIRST_SUPERUSER_PASSWORD,
+            full_name=settings.USER_ADMIN_FULLNAME,
+            email=settings.USER_ADMIN_EMAIL,
+            password=settings.USER_ADMIN_PASSWORD,
             is_superuser=True,
         )
-        user = crud.user.create(db, obj_in=user_in)  # noqa: F841
+        user = crud.user.create(obj_in=user_in)
+
+    user = crud.user.get_by_email(email=settings.USER_TEST_EMAIL)
+    if not user:
+        user_in = schemas.UserCreate(
+            full_name=settings.USER_TEST_FULLNAME,
+            email=settings.USER_TEST_EMAIL,
+            password=settings.USER_TEST_PASSWORD,
+            is_superuser=False,
+        )
+        user = crud.user.create(obj_in=user_in)

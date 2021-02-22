@@ -23,6 +23,7 @@ emails = "*"
 email-validator = "*"
 pymongo = "*"
 celery = "*"
+odmantic = "*"
 
 [requires]
 python_version = "3.8"

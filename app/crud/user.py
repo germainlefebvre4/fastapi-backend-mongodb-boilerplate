@@ -5,13 +5,25 @@ from typing import Any, Dict, Optional, Union
 
 from app.db.database import get_default_bucket
 from bson.objectid import ObjectId
-from pymongo import MongoClient, ReturnDocument 
 
 from app.core import config
 from app.core.security import get_password_hash, verify_password
-from app.schemas.config import USERPROFILE_DOC_TYPE
 from app.schemas.role import RoleEnum
 from app.schemas.user import User, UserCreate, UserInDB, UserUpdate
+
+
+def get(*, id: ObjectId):
+    db = get_default_bucket()
+    collection = db["users"]
+    query_str = { "id": str(id) }
+    user_db = collection.find_one(query_str)
+
+    if not user_db:
+        return None
+
+    user = UserInDB(**user_db)
+
+    return user
 
 
 def get_multi(*, skip: int = 0, limit: int = 100):
@@ -20,7 +32,6 @@ def get_multi(*, skip: int = 0, limit: int = 100):
     users = []
     for user_db in collection.find():
         user = UserInDB(**user_db)
-        user.id = user_db['_id']
         users.append(user)
     return users
 
@@ -36,7 +47,6 @@ def get_by_email(*, email: str) -> Optional[User]:
         return None
 
     user = UserInDB(**user_db)
-    user.id = user_db['_id']
 
     return user
 
@@ -49,9 +59,8 @@ def create(*, obj_in: UserCreate) -> User:
     collection = db["users"]
     res = collection.insert_one(doc_data)
 
-    user_db = collection.find_one({'_id': ObjectId(res.inserted_id)})
+    user_db = collection.find_one({"_id": ObjectId(res.inserted_id)})
     user = UserInDB(**user_db)
-    user.id = user_db['_id']
 
     return user
 
@@ -80,7 +89,16 @@ def update(*, db_obj: User, obj_in: Union[UserUpdate, Dict[str, Any]]) -> User:
     user_db = collection.find_one_and_update(query_str, newvalues)
 
     user = UserInDB(**user_db)
-    user.id = user_db['_id']
+
+    return user
+
+
+def remove(*, id: str) -> User:
+    user = get(id=id)
+    
+    db = get_default_bucket()
+    collection = db["users"]
+    res = collection.delete_one({"id": str(id)})
 
     return user
 
