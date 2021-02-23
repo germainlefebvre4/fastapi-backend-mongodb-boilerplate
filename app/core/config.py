@@ -68,13 +68,13 @@ class Settings(BaseSettings):
             and values.get("EMAILS_FROM_EMAIL")
         )
 
-    USER_TEST_FULLNAME: str = "Test"
-    USER_TEST_EMAIL: EmailStr = "test@bspauto.fr"
-    USER_TEST_PASSWORD: str = "test"
+    USER_TEST_FULLNAME: str
+    USER_TEST_EMAIL: EmailStr
+    USER_TEST_PASSWORD: str
 
-    USER_ADMIN_FULLNAME: str = "Admin"
-    USER_ADMIN_EMAIL: EmailStr = "admin@bspauto.fr"
-    USER_ADMIN_PASSWORD: str = "admin"
+    USER_ADMIN_FULLNAME: str
+    USER_ADMIN_EMAIL: EmailStr
+    USER_ADMIN_PASSWORD: str
 
     USERS_OPEN_REGISTRATION: bool = False
 
