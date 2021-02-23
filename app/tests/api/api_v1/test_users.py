@@ -2,8 +2,6 @@ from typing import Dict
 
 from fastapi.testclient import TestClient
 
-from app.db.database import get_default_bucket
-
 from app import crud
 from app.core.config import settings
 from app.schemas.user import UserCreate
@@ -72,7 +70,6 @@ def test_get_existing_user(
     email = random_email()
     password = random_lower_string()
     user_in = UserCreate(full_name=full_name, email=email, password=password)
-    db = get_default_bucket()
     user = crud.user.create(obj_in=user_in)
     user_id = user.id
     r = client.get(
@@ -92,7 +89,6 @@ def test_create_user_existing_email(
     email = random_email()
     password = random_lower_string()
     user_in = UserCreate(full_name=full_name, email=email, password=password)
-    db = get_default_bucket()
     crud.user.create(obj_in=user_in)
     data = {"full_name": full_name, "email": email, "password": password}
     r = client.post(
@@ -123,7 +119,6 @@ def test_retrieve_users(
     email = random_email()
     password = random_lower_string()
     user_in = UserCreate(full_name=full_name, email=email, password=password)
-    db = get_default_bucket()
     crud.user.create(obj_in=user_in)
 
     full_name2 = random_lower_string()

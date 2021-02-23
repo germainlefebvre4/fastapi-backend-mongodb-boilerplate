@@ -29,7 +29,6 @@ def test_authenticate_user() -> None:
 
 
 def test_not_authenticate_user() -> None:
-    full_name = random_lower_string()
     email = random_email()
     password = random_lower_string()
     user = crud.user.authenticate(email=email, password=password)

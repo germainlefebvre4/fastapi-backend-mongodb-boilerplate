@@ -1,7 +1,6 @@
 from typing import Dict
 
 from fastapi.testclient import TestClient
-from pymongo import MongoClient
 
 from app import crud
 from app.core.config import settings

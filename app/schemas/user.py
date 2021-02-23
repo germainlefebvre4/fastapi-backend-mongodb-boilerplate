@@ -1,10 +1,9 @@
-from typing import List, Optional, Union
+from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field
-from odmantic import Field, Model
+from odmantic import Model as BaseModel
 
 
-class UserBase(Model):
+class UserBase(BaseModel):
     email: str
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False

@@ -6,7 +6,7 @@ from jose import jwt
 from pydantic import ValidationError
 from pymongo import MongoClient
 
-from app import crud, models, schemas
+from app import crud, schemas
 from app.core import security
 from app.core.config import settings
 
@@ -17,7 +17,7 @@ reusable_oauth2 = OAuth2PasswordBearer(
 
 def get_current_user(
     token: str = Depends(reusable_oauth2)
-) -> models.User:
+) -> schemas.User:
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[security.ALGORITHM]
@@ -35,16 +35,16 @@ def get_current_user(
 
 
 def get_current_active_user(
-    current_user: models.User = Depends(get_current_user),
-) -> models.User:
+    current_user: schemas.User = Depends(get_current_user),
+) -> schemas.User:
     if not crud.user.is_active(current_user):
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
 
 def get_current_active_superuser(
-    current_user: models.User = Depends(get_current_user),
-) -> models.User:
+    current_user: schemas.User = Depends(get_current_user),
+) -> schemas.User:
     if not crud.user.is_superuser(current_user):
         raise HTTPException(
             status_code=400, detail="The user doesn't have enough privileges"

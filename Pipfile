@@ -22,7 +22,6 @@ python-multipart = "*"
 emails = "*"
 email-validator = "*"
 pymongo = "*"
-celery = "*"
 odmantic = "*"
 
 [requires]
