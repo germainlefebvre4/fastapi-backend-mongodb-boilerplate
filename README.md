@@ -1,7 +1,4 @@
-# BSPAuto API
-
-API to run inside BSP Auto project.
-
+# FastAPI Backend MongoDB - Boilerplate
 
 ## Getting started
 Install required packages:
